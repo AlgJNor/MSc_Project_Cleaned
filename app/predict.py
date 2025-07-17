@@ -1,5 +1,5 @@
 import pickle
-from pre_process import clean_text
+from app.pre_process import clean_text
 
 def predict_email(email_text):
     # Load model
