@@ -6,15 +6,18 @@
 </head>
 <body>
     <h1> Phishing Email Classifier</h1>
-    <form method="POST">
-        <textarea name="email_text" rows="10" cols="60" placeholder="Please paste your email here..."></textarea>
+    <form id="emailForm" method="POST">
+        <textarea id="emailText" name="email_text" rows="10" cols="60" placeholder="Please paste your email here..."></textarea>
         <br><br>
-        <button type="submit">Check</button>
+        <p id="error" style="color: red; display: none"></p>
+        <button type="submit" id="submitBtn">Submit</button>
+        <span id="loadingSpinner" style="display:none;">Processing scam detection...</span>
     </form>
 
     {% if prediction %}
         <h2>RESULT: {{ prediction }}</h2>
     {% endif %}
+    <script src="{{ url_for('static', filename='js/form-validation.js')}}"></script>
 </body>
 </html>
 
