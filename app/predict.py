@@ -1,13 +1,16 @@
 import pickle
+import os, sys
 from app.pre_process import clean_text
 
 def predict_email(email_text):
     # Load model
-    with open("phishing_detector.pkl", "rb") as f:
+    phishing_model_path = os.path.join(os.path.dirname(__file__), 'phishing_detector.pkl')
+    with open(phishing_model_path, "rb") as f:
         model = pickle.load(f)
 
     # Load vectorizer
-    with open("vectorizer.pkl", "rb") as f:
+    vectorizer_path = os.path.join(os.path.dirname(__file__), 'vectorizer.pkl')
+    with open(vectorizer_path, "rb") as f:
         vectorizer = pickle.load(f)
 
     # Preprocess and vectorize
