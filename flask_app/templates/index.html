@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Scam Detection System</title>
+</head>
+<body>
+    <h1> Phishing Email Classifier</h1>
+    <form method="POST">
+        <textarea name="emai_text" rows="10" cols="60" placeholder="Please paste your email here..."></textarea>
+        <br><br>
+    </form>
+
+    {% if prediction %}
+        <h2>RESULT: {{ prediction }}</h2>
+    {% endif %}
+</body>
+</html>
+
