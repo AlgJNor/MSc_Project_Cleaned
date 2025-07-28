@@ -1,23 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Email Scam Detection System</title>
-</head>
-<body>
-    <h1> Phishing Email Classifier</h1>
+{% extends "base.html" %}
+
+{% block title %}Phishing Email Classifier{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Phishing Email Classifier</h1>
+
     <form id="emailForm" method="POST">
-        <textarea id="emailText" name="email_text" rows="10" cols="60" placeholder="Please paste your email here..."></textarea>
-        <br><br>
-        <p id="error" style="color: red; display: none"></p>
-        <button type="submit" id="submitBtn">Submit</button>
-        <span id="loadingSpinner" style="display:none;">Processing scam detection...</span>
+        <div class="mb-3">
+            <textarea class="form-control" id="emailText" name="email_text" rows="10" placeholder="Please paste your email here..."></textarea>
+        </div>
+
+        <p id="error" class="text-danger" style="display: none;"></p>
+
+        <div class="d-flex align-items-center">
+            <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+            <span id="loadingSpinner" class="ms-3 text-muted" style="display:none;">Processing scam detection...</span>
+        </div>
     </form>
 
     {% if prediction %}
-        <h2>RESULT: {{ prediction }}</h2>
+    <div class="alert mt-4 {{ 'alert-danger' if prediction == 'Phishing' else 'alert-success' }}" role="alert">
+        <strong>RESULT:</strong> {{ prediction }}
+    </div>
     {% endif %}
-    <script src="{{ url_for('static', filename='js/form-validation.js')}}"></script>
-</body>
-</html>
+</div>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/form-validation.js')}}"></script>
+{% endblock %}
