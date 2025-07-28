@@ -8,13 +8,15 @@
 
     <form id="emailForm" method="POST">
         <div class="mb-3">
-            <textarea class="form-control" id="emailText" name="email_text" rows="10" placeholder="Please paste your email here..."></textarea>
+            <textarea class="form-control" id="emailText" name="email_text" rows="10" placeholder="Please paste your email here...">{{ request.form.get('email_text', '')}}</textarea>
         </div>
 
         <p id="error" class="text-danger" style="display: none;"></p>
 
         <div class="d-flex align-items-center">
-            <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+
+            <button type="submit" id="submitBtn" class="btn btn-primary me-2">Submit</button>
+            <a href="/" class="btn btn-secondary">Reset</a>
             <span id="loadingSpinner" class="ms-3 text-muted" style="display:none;">Processing scam detection...</span>
         </div>
     </form>
@@ -24,6 +26,17 @@
         <strong>RESULT:</strong> {{ prediction }}
     </div>
     {% endif %}
+    {% if total %}
+<div class="mt-4">
+    <h5>Classification Summary</h5>
+    <ul class="list-group">
+        <li class="list-group-item">Total Emails Classified: <strong>{{ total }}</strong></li>
+        <li class="list-group-item text-danger">Phishing: <strong>{{ phishing }}</strong></li>
+        <li class="list-group-item text-success">Legitimate: <strong>{{ legit }}</strong></li>
+    </ul>
+</div>
+{% endif %}
+
 </div>
 {% endblock %}
 

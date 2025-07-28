@@ -3,11 +3,9 @@ const submitBtn  = document.getElementById("submitBtn")
 const errorMessage  = document.getElementById("error")
 const loadingSpinner  = document.getElementById("loadingSpinner")
 
-
 form.addEventListener("submit", function (e) {
 
     const email_text = document.getElementById("emailText").value.trim()
-
     if(!email_text) {
         e.preventDefault();
         errorMessage.textContent = "\You must enter your email text";
