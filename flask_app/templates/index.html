@@ -9,6 +9,7 @@
     <form id="emailForm" method="POST">
         <div class="mb-3">
             <textarea class="form-control" id="emailText" name="email_text" rows="10" placeholder="Please paste your email here...">{{ request.form.get('email_text', '')}}</textarea>
+            <small id="charCount" class="text-muted">Characters: 0 / 10000</small>
         </div>
 
         <p id="error" class="text-danger" style="display: none;"></p>

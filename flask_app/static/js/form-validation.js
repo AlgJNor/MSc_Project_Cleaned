@@ -2,10 +2,11 @@ const form  = document.getElementById("emailForm")
 const submitBtn  = document.getElementById("submitBtn")
 const errorMessage  = document.getElementById("error")
 const loadingSpinner  = document.getElementById("loadingSpinner")
-
+const charCount = document.getElementById("charCount");
+const emailTextArea = document.getElementById("emailText");
 form.addEventListener("submit", function (e) {
 
-    const email_text = document.getElementById("emailText").value.trim()
+    const email_text = emailTextArea.value.trim()
     if(!email_text) {
         e.preventDefault();
         errorMessage.textContent = "\You must enter your email text";
@@ -24,4 +25,22 @@ form.addEventListener("submit", function (e) {
     submitBtn.disabled = true;
     loadingSpinner.style.display = "inline";
 
+})
+
+emailTextArea.addEventListener("input", () => {
+    const currentLength = emailTextArea.value.length
+    charCount.textContent = `Characters: ${currentLength} / 10000`
+
+    if(currentLength > 9500 && currentLength <= 10000) {
+        charCount.classList.remove("text-muted");
+        charCount.classList.add("text-warning");
+    }
+    else if (currentLength > 10000) {
+        charCount.classList.remove("text-warning");
+        charCount.classList.add("text-danger");
+    }
+    else {
+         charCount.classList.remove("text-warning", "text-danger");
+        charCount.classList.add("text-muted");
+    }
 })
