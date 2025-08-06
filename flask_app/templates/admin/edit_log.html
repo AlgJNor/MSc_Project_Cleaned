@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit Log Entry</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Email Text: </label>
+        <textarea name="email_text" class="form-control" rows="4">{{ email_text or entry[1] }}</textarea>
+    </div>
+    {% if prediction %}
+    <div class="alert alert-info">
+        <strong>Prediction:</strong> {{ prediction }} <br>
+        <strong>Confidence Score:</strong> {{ score }}% confident
+    </div>
+    {% endif %}
+    <div class="mb-3">
+        <label>Prediction: </label>
+        <select name="prediction" class="form-control">
+            <option value="Phsihing" {% if entry[2] == 'Phishing' %}selected{% endif %}>Phsihing</option>
+            <option value="Not Phishing" {% if entry[2] == 'Not Phishing' %}selected{% endif %}>Not Phishing</option>
+            <option value="Uncertain" {% if entry[2] == 'Uncertain' %}selected{% endif %}>Uncertain</option>
+        </select>
+    </div>
+    <button type="submit" name="action" value="Recheck" class="btn btn-info">Recheck Prediction</button>
+    <span id="loadingSpinner" class="ms-3 text-muted" style="display:none;">Processing scam detection...</span>
+    <button type="submit" name="action" value="Save" class="btn btn-success">Save Changes</button>
+    <a href="{{ url_for('classification_log') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/form-validation.js')}}"></script>
+{% endblock %}

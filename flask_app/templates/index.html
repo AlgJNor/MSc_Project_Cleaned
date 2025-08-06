@@ -9,7 +9,7 @@
     <form id="emailForm" method="POST">
         <div class="mb-3">
             <textarea class="form-control" id="emailText" name="email_text" rows="10" placeholder="Please paste your email here...">{{ request.form.get('email_text', '')}}</textarea>
-            <small id="charCount" class="text-muted">Characters: 0 / 10000</small>
+            <small id="charCount" class="text-muted">Characters: {{ request.form.get('email_text', '')|length }} / 10000</small>
         </div>
 
         <p id="error" class="text-danger" style="display: none;"></p>
@@ -23,8 +23,29 @@
     </form>
 
     {% if prediction %}
-    <div class="alert mt-4 {{ 'alert-danger' if prediction == 'Phishing' else 'alert-success' }}" role="alert">
-        <strong>RESULT:</strong> {{ prediction }}
+    <div class="alert mt-4 {% if prediction.label == 'Phishing' %} alert-danger
+                {% elif prediction.label == 'Not Phishing' %} alert-success
+                {% else %} alert-secondary {% endif %}" role="alert">
+        <strong>RESULT:</strong> {{ prediction.label }} ({{ prediction.confidence_score }}% confident)
+    </div>
+    <div class="mt-3">
+        <h6> Top Contributing Words: </h6>
+        <div class="d-flex flex-wrap">
+            {% for item in prediction.top_contributing_words %}
+            {% set weight = item.weight %}
+            {% if weight >= 50 %}
+                {% set bg_color = 'bg-danger text-white' %}
+            {% elif weight >= 20 %}
+                {% set bg_color = 'bg-warning text-dark' %}
+            {% else %}
+                {% set bg_color = 'bg-light text-dark' %}
+            {% endif %}
+            <span class="badge {{ bg_color }} m-1 px-3 py-2">
+                {{ item.word}} ({{ item.weight }}%)
+            </span>
+            {% endfor %}
+        </div>
+
     </div>
     {% endif %}
     {% if total %}

@@ -16,6 +16,28 @@ def predict_email(email_text):
     # Preprocess and vectorize
     cleaned = clean_text(email_text)
     vector = vectorizer.transform([cleaned])
-    prediction = model.predict(vector)
+    prediction = model.predict_proba(vector)[0][1]
+    confidence_score = prediction * 100
 
-    return "Phishing" if prediction[0] == 1 else "Not Phishing"
+    if prediction >= 0.7:
+        label = "Phishing"
+    elif prediction <= 0.30:
+        label = "Not Phishing"
+    else:
+        label = "Uncertain"
+
+    get_feature_names = vectorizer.get_feature_names_out()
+    word_weights = vector.toarray()[0]
+    top_indices = word_weights.argsort()[::-1][:5]
+    total_weight = sum(word_weights)
+    top_contributing_words = [
+        {"word": get_feature_names[i], "weight": round((word_weights[i] / total_weight) * 100, 2)}
+        for i in top_indices if word_weights[i] > 0
+    ]
+
+
+    return {
+       "label": label,
+        "confidence_score": f"{confidence_score:.2f}",
+        "top_contributing_words": top_contributing_words
+    }

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Admin Dashboard</h1>
+
+    {% if current_user.role == 'admin' %}
+        <p>Welcome, {{ current_user.username }}. You are logged in as an administrator.</p>
+
+        <!-- Add any admin-only tools or panels here -->
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a href="#" class="btn btn-outline-primary">Manage users</a>
+        <a href="classification_log.html" class="btn btn-outline-secondary">View logs</a>
+        <a href="#" class="btn btn-outline-dark">System settings</a>
+    </div>
+
+    {% else %}
+        <p class="text-danger">Access denied. You are not an administrator.</p>
+    {% endif %}
+</div>
+{% endblock %}

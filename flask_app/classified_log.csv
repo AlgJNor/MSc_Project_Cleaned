@@ -1,0 +1,12 @@
+Timestamp,Email Text,Prediction
+2025-08-06 18:36:58,this is an example email,"{'label': 'Uncertain', 'confidence_score': '53.59', 'top_contributing_words': [{'word': 'example email', 'weight': np.float64(61.24)}, {'word': 'example', 'weight': np.float64(25.21)}, {'word': 'email', 'weight': np.float64(13.55)}]}"
+2025-08-06 19:14:51,"TOP CONTRIBUTION WORDS LIST ['example', 'email']
+TOP CONTRIBUTING WORDS example, email
+127.0.0.1 - - [06/Aug/2025 19:14:14] ""GET /classification_log.html HTTP/1.1"" 200 -
+127.0.0.1 - - [06/Aug/2025 19:14:38] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '11.05', 'top_contributing_words': [{'word': 'example email', 'weight': np.float64(19.12)}, {'word': 'words list', 'weight': np.float64(9.4)}, {'word': 'words example', 'weight': np.float64(9.4)}, {'word': 'words', 'weight': np.float64(8.5)}, {'word': 'list example', 'weight': np.float64(8.32)}]}"
+2025-08-06 19:26:37,"127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png&s=ckLbnVTUGveVJNEgznDy HTTP/1.1"" 200 -
+127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1"" 200 -
+127.0.0.1 - - [06/Aug/2025 19:26:22] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '9.17', 'top_contributing_words': [{'word': 'png', 'weight': np.float64(16.89)}, {'word': 'cmd', 'weight': np.float64(15.66)}, {'word': 'console', 'weight': np.float64(13.5)}, {'word': 'url', 'weight': np.float64(13.3)}, {'word': 'edit', 'weight': np.float64(10.92)}]}"
+2025-08-06 19:27:00,"127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png&s=ckLbnVTUGveVJNEgznDy HTTP/1.1"" 200 -
+127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1"" 200 -
+127.0.0.1 - - [06/Aug/2025 19:26:22] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '9.17', 'top_contributing_words': [{'word': 'png', 'weight': np.float64(16.89)}, {'word': 'cmd', 'weight': np.float64(15.66)}, {'word': 'console', 'weight': np.float64(13.5)}, {'word': 'url', 'weight': np.float64(13.3)}, {'word': 'edit', 'weight': np.float64(10.92)}]}"

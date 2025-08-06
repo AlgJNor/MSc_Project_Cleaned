@@ -32,14 +32,17 @@ emailTextArea.addEventListener("input", () => {
     charCount.textContent = `Characters: ${currentLength} / 10000`
 
     if(currentLength > 9500 && currentLength <= 10000) {
+         e.preventDefault();
         charCount.classList.remove("text-muted");
         charCount.classList.add("text-warning");
     }
     else if (currentLength > 10000) {
+         e.preventDefault();
         charCount.classList.remove("text-warning");
         charCount.classList.add("text-danger");
     }
     else {
+         e.preventDefault();
          charCount.classList.remove("text-warning", "text-danger");
         charCount.classList.add("text-muted");
     }
