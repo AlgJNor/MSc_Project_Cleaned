@@ -56,22 +56,47 @@ def login():
             flash('Login unsuccessful.', 'danger')
     return render_template('login.html')
 
-
+def is_email_valid(email):
+    pattern  = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    return re.match(pattern,email)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        existing_user = User.query.filter_by(username=request.form['username']).first()
-        if existing_user:
-            flash('Username already exists.', 'warning')
+        email = request.form.get('email', '').strip()
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if not email or not is_email_valid(email):
+            flash('Please enter a valid email address.', 'danger')
             return redirect(url_for('register'))
 
-        hashed_password = generate_password_hash(request.form['password'])
-        new_user = User(username=request.form['username'], password_hash=hashed_password)
-        database.session.add(new_user)
-        database.session.commit()
-        flash('Account created! You can now log in.', 'success')
-        return redirect(url_for('login'))
+        if not username:
+            flash('Please enter a username.', 'danger')
+            return redirect(url_for('register'))
 
+        if not password or not confirm_password:
+            flash('Please enter and confirm your password.', 'danger')
+            return redirect(url_for('register'))
+
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('register'))
+
+        if User.query.filter_by(username=username).first():
+            flash('Username already exits. Please choose another suername.', 'danger')
+            return redirect(url_for('register'))
+        if User.query.filter_by(email=email).first():
+            flash('That email already exits. Please choose another email.', 'danger')
+            return redirect(url_for('register'))
+
+        hashed_password = generate_password_hash(password)
+        new_saved_user = User(username=username, email=email, password_hash=hashed_password)
+        database.session.add(new_saved_user)
+        database.session.commit()
+
+        flash('Thank you for registering. Please login to continue.', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html')
 
 @app.route('/logout')
@@ -101,7 +126,11 @@ LOG_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'classified_
 def log_classification(email_text, prediction):
     headers = ["Timestamp", "Email Text", "Prediction", "Confidence Score", "Top Contributing Words"]
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    entry = [timestamp, email_text.strip(), prediction]
+    label = prediction.get('label', 'N/A')
+    confidence_score = round(float(prediction.get('confidence_score', 0)), 2)
+    top_words = prediction.get('top_contributing_words', [])
+    top_contributing_words = ', '.join([w['word'] for w in top_words]) if isinstance(top_words, list) else 'N/A'
+    entry = [timestamp, email_text.strip(), label, confidence_score, top_contributing_words]
 
     write_header = not os.path.isfile(LOG_PATH) or os.stat(LOG_PATH).st_size == 0
 
@@ -195,20 +224,17 @@ def edit_log(timestamp):
             updated_entries = []
             for row in entries:
                 if row[0] == timestamp:
-                    updated_prediction_dict = {
-                        "label": new_prediction,
-                        "confidence_score":updated_score,
-                        "top_contributing_words": new_prediction.get('top_contributing_words', [])
-
-                    }
-                    updated_entries.append([timestamp, email_text,str(updated_prediction_dict)])
+                    new_label = request.form.get("prediction")
+                    score = entry[3]
+                    top_contributing_words = entry[4]
+                    updated_entries.append([timestamp, email_text.strip(), new_label, score, top_contributing_words])
                 else:
                     updated_entries.append(row)
 
             with open(LOG_PATH, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
                 writer.writerow(headers)
-                writer.writerows(entries)
+                writer.writerows(updated_entries)
             flash("Log edited successfully!", "success")
             return redirect(url_for('classification_log'))
 
@@ -268,30 +294,9 @@ def classification_log():
                 timestamp = row[0]
                 email_text = row[1]
                 try:
-                    raw_prediction = row[2]
-                    print('RAW PREDICTION', raw_prediction)
-                    cleaned = re.sub(r'np\.float64\((.*?)\)', r'\1', raw_prediction)
-                    prediction_dict = ast.literal_eval(cleaned)
-                    print('PREDITCTION', prediction_dict)
-                    label = prediction_dict.get('label')
-                    print('LABEL', label)
-                    score = f"{float(prediction_dict.get('confidence_score', 0)):.2f}%"
-                    print('SCORE', score)
-                    top_words = prediction_dict.get('top_contributing_words', [])
-                    if isinstance(top_words, list) and top_words:
-                        seen_words = set()
-                        top_contributing_words_list = []
-                        for word_info in top_words:
-                            word= word_info.get('word', '').strip().lower()
-                            for token in word.split():
-                                if token and token not in seen_words:
-                                    seen_words.add(token)
-                                    top_contributing_words_list.append(token)
-                        print('TOP CONTRIBUTION WORDS LIST', top_contributing_words_list)
-                        top_contributing_words = ', '.join(top_contributing_words_list)
-                    else:
-                        top_contributing_words = "N/A"
-                    print("TOP CONTRIBUTING WORDS", top_contributing_words)
+                    label = row[2]
+                    score = f"{float(row[3]):.2f}%"
+                    top_contributing_words = row[4]
                 except Exception as e:
                     label = score = top_contributing_words = "Parsing Error with the File"
                 log_entries.append([timestamp, email_text, label, score, top_contributing_words])

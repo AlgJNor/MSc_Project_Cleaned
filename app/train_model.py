@@ -39,8 +39,10 @@ def clean_text(text):
 df['text'] = df['text'].apply(clean_text)
 
 # 5. Vectorization
-vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), min_df=3, max_df=0.85)
+vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), min_df=3, max_df=0.85, max_features=10000)
 X = vectorizer.fit_transform(df['text'])
+
+print(X.shape)
 
 # 6. Labels
 y = df['label']

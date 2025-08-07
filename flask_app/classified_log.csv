@@ -1,12 +1,56 @@
-Timestamp,Email Text,Prediction
-2025-08-06 18:36:58,this is an example email,"{'label': 'Uncertain', 'confidence_score': '53.59', 'top_contributing_words': [{'word': 'example email', 'weight': np.float64(61.24)}, {'word': 'example', 'weight': np.float64(25.21)}, {'word': 'email', 'weight': np.float64(13.55)}]}"
-2025-08-06 19:14:51,"TOP CONTRIBUTION WORDS LIST ['example', 'email']
-TOP CONTRIBUTING WORDS example, email
-127.0.0.1 - - [06/Aug/2025 19:14:14] ""GET /classification_log.html HTTP/1.1"" 200 -
-127.0.0.1 - - [06/Aug/2025 19:14:38] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '11.05', 'top_contributing_words': [{'word': 'example email', 'weight': np.float64(19.12)}, {'word': 'words list', 'weight': np.float64(9.4)}, {'word': 'words example', 'weight': np.float64(9.4)}, {'word': 'words', 'weight': np.float64(8.5)}, {'word': 'list example', 'weight': np.float64(8.32)}]}"
-2025-08-06 19:26:37,"127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png&s=ckLbnVTUGveVJNEgznDy HTTP/1.1"" 200 -
-127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1"" 200 -
-127.0.0.1 - - [06/Aug/2025 19:26:22] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '9.17', 'top_contributing_words': [{'word': 'png', 'weight': np.float64(16.89)}, {'word': 'cmd', 'weight': np.float64(15.66)}, {'word': 'console', 'weight': np.float64(13.5)}, {'word': 'url', 'weight': np.float64(13.3)}, {'word': 'edit', 'weight': np.float64(10.92)}]}"
-2025-08-06 19:27:00,"127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png&s=ckLbnVTUGveVJNEgznDy HTTP/1.1"" 200 -
-127.0.0.1 - - [06/Aug/2025 19:24:13] ""GET /edit/2025-08-06%2019:14:51?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1"" 200 -
-127.0.0.1 - - [06/Aug/2025 19:26:22] ""GET / HTTP/1.1"" 200 -","{'label': 'Not Phishing', 'confidence_score': '9.17', 'top_contributing_words': [{'word': 'png', 'weight': np.float64(16.89)}, {'word': 'cmd', 'weight': np.float64(15.66)}, {'word': 'console', 'weight': np.float64(13.5)}, {'word': 'url', 'weight': np.float64(13.3)}, {'word': 'edit', 'weight': np.float64(10.92)}]}"
+Timestamp,Email Text,Prediction,Confidence Score,Top Contributing Words
+2025-08-07 18:57:07,new email,Uncertain,63.8,"new email, new, email"
+2025-08-07 19:00:23,this is an email example,Not Phishing,34.18,"example, email"
+2025-08-07 19:03:01,"* Debugger PIN: 871-867-570
+ * Detected change in 'C:\\Users\\algot\\Documents\\MSc_Project_Cleaned\\flask_app\\run_app.py', reloading
+ * Restarting with stat
+ * Debugger is active!",Phsihing,34.18,"example, email"
+2025-08-07 20:03:30,this is a test email that is not clearly phishing,Uncertain,36.98,"test, email"
+2025-08-07 20:03:50,this is a normal email,Phishing,78.19,"normal, email"
+2025-08-07 20:05:27,"this is a test email that is not_clearly phishing
+C:\Users\algot\Documents\MSc_Project_Cleaned\flask_app\run_app.py:39: LegacyAPIWarning: The Query.get() m
+ethod is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The 
+method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+  return User.query.get(int(user_id))
+127.0.0.1 - - [07/Aug/2025 20:03:30] ""POST / HTTP/1.1"" 200 -
+127.0.0.1 - - [07/Aug/2025 20:03:30] ""GET /static/js/form-validation.js HTTP/1.1"" 304 -
+TEXT this is a normal email
+New cleaned text:",Not Phishing,5.51,"legacy, url, query, text, py"
+2025-08-07 20:06:10,"To ensure delivery to your inbox, please add USAA.Customer.Service@mailcenter.usaa.com to your address book. 	   	   	  	   Security Upgrade May Affect usaa.com Access	  View Accounts | Privacy Promise | Contact Us	  	     	 	  	 	  	 	  	   USAA SECURITY ZONE  USAA  Member  USAA # 	  	   	  	  	  	   	   	    @page Section1:first { size:8.5in 11.0in; margin-top:0.75in; margin-right:0.75in; margin-bottom:0.75in; margin-left:0.75in } #messagebody div.rcmBody div.Section1 { page:""Section1"" } #messagebody div.rcmBody p.normal { font-family:""Verdana""; font-size:10.0pt; font-variant:normal; text-align:left; text-transform:none; margin-top:0.0pt; margin-right:0.0pt; margin-bottom:0.0pt; margin-left:0.0pt } #messagebody div.rcmBody table.normal { font-family:""Times New Roman""; font-size:10.0pt; font-variant:normal; text-align:left; text-transform:none; margin-top:0.0pt; margin-right:0.0pt; margin-bottom:0.0pt; margin-left:0.0pt; border-collapse:collapse }        Dear Valued Member,        We recently let you know that we are participating in a worldwide Internet upgrade to increase online security for you and USAA. Access to usaa.com for members who use devices with old operating systems may be affected by this Internet upgrade. To update your account now, Log on to usaa.com.         Device Update Deadline    This is a final reminder that you'll need to check your device operating system and update it if necessary by Nov 02, 2015. After this date, devices without an updated system will not be able to access usaa.com.        If you need help updating your device, please contact your mobile service provider or computer retailer. If you have questions, please call us at 1-877-632-3002 and say ""technical support"" when prompted.        Thank you,    USAA                     	            USAA, 9800 Fredericksburg Road, San Antonio, Texas 78288          	  	  	    Privacy Promise  Please do not reply to this e-mail. To contact USAA, visit our secure contact page. 	  129209-0215 	  	  To             ensure delivery to your inbox, please add USAA.Customer.Service@mailcenter.usaa.com             to your address book.   Security Upgrade May Affect usaa.com Access View Accounts | Privacy Promise | Contact Us USAA                                                 SECURITY ZONE USAA Member USAA #        Dear Valued Member,   We                 recently let you know that we are participating in a                 worldwide Internet upgrade to increase online security                 for you and USAA. Access to usaa.com for members who use                 devices with old operating systems may be affected by                 this Internet upgrade. To update your account now, Log on                 to usaa.com.    Device Update Deadline This is a                 final reminder that you'll need to check your device                 operating system and update it if necessary by Nov 02,                 2015. After this date, devices without an updated                     system will not be able to access usaa.com.    If you                 need help updating your device, please contact your                 mobile service provider or computer retailer. If you                 have questions, please call us at 1-877-632-3002 and say                 ""technical support"" when prompted.    Thank you, USAA                 USAA, 9800 Fredericksburg Road, San Antonio, Texas 78288     Privacy Promise            Please do not reply to this e-mail. To contact USAA, visit our secure contact page. 129209-0215",Phishing,85.44,"usaa, margin, font, upgrade, device"
+2025-08-07 20:08:39,"Dear Student,
+
+Please find below important information regarding your upcoming demo:
+
+Who: Your demo will be assessed by an inspector—a member of staff other than your supervisor. We will inform you who your assigned inspector is by the end of this week. Where: The demo can be conducted either online (via Zoom) or in person, as agreed between you and your inspector. When: Demos will be held between 18th and 22nd August. The specific date and time will be arranged directly between you and your inspector. What: You need to prepare a slide deck of up to 10 slides in advance. The demo session will include:
+A 5-minute presentation where you walk through your slides to introduce and outline your project.
+
+Followed by 15–20 minutes of questions and discussion led by the inspector.
+
+Please email your slide deck to your inspector by 5:00 PM on Friday, 15th August, so they have time to review and familiarise themselves with your work.
+
+Tips for Slide Deck and Q&A Preparation
+While you may structure your slide deck as you see fit, a typical format includes:
+
+Background / Motivation (1–2 slides)
+
+Methodology / Design (1–2 slides)
+
+Experimental Design and Results / Product (2–3 slides)
+
+Conclusion and Future Work (1 slide)
+
+What your inspector may assess during the Q&A:
+
+Your grasp of the project and its goals
+
+The rationale behind your design choices
+
+Your understanding of the code and techniques used
+
+Your ability to distinguish your work from GenAI contributions
+
+If you have any questions, feel free to drop by during my weekly office hour (12:30–14:30, Wed). The Zoom link is https://bham-ac-uk.zoom.us/j/2066382427
+
+ 
+
+Kind regards - Miqing",Not Phishing,7.3,"slides, slide, demo, design, work"
