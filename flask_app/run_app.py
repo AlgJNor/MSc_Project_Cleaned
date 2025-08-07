@@ -115,10 +115,6 @@ def log_classification(email_text, prediction):
         print(f"[Logging Error] Failed to log classification:{e}")
 
 
-
-
-
-
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -126,6 +122,43 @@ def admin_required(f):
             abort(403)
         return f(*args, **kwargs)
     return decorated_function
+
+
+@app.route('/edit_users')
+@login_required
+@admin_required
+def edit_users():
+    users = User.query.all()
+    return render_template('admin/edit_users.html', users=users)
+
+@app.route('/update_user_role/<int:user_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_user_role(user_id):
+    user = User.query.get_or_404(user_id)
+    new_role = request.form.get('role')
+    if new_role in ['user', 'admin']:
+        user.role = new_role
+        database.session.commit()
+        flash(f"Updated role for {user.username} to '{new_role}'", 'success')
+    else:
+        flash("Invalid role selected.", 'danger')
+    return redirect(url_for('edit_users'))
+
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_user(user_id):
+    if current_user.id == user_id:
+        flash("You cannot delete your own account.", 'warning')
+        return redirect(url_for('edit_users'))
+
+    user = User.query.get_or_404(user_id)
+    database.session.delete(user)
+    database.session.commit()
+    flash(f"User '{user.username}' has been deleted.", 'success')
+    return redirect(url_for('edit_users'))
+
 
 @app.route('/edit/<timestamp>', methods=['GET', 'POST'])
 @login_required
