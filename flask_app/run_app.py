@@ -286,6 +286,8 @@ def classification_log():
     log_entries = []
     log_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'classified_log.csv')
     headers = ["Timestamp", "Email Text", "Prediction", "Confidence Score", "Top Contributing Words"]
+
+    q = request.args.get('q', '').lower();
     if os.path.exists(log_path):
         with open(log_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile)
@@ -297,12 +299,16 @@ def classification_log():
                     label = row[2]
                     score = f"{float(row[3]):.2f}%"
                     top_contributing_words = row[4]
+                    if q:
+                        haystack = " ".join(row).lower()
+                        if q not in haystack:
+                            continue
                 except Exception as e:
                     label = score = top_contributing_words = "Parsing Error with the File"
                 log_entries.append([timestamp, email_text, label, score, top_contributing_words])
 
 
-    return render_template('admin/classification_log.html', log_entries=log_entries, headers = ["Timestamp", "Email Text", "Prediction", "Confidence Score", "Top Contributing Words"])
+    return render_template('admin/classification_log.html', log_entries=log_entries, headers = ["Timestamp", "Email Text", "Prediction", "Confidence Score", "Top Contributing Words"], q=q)
 
 
 
