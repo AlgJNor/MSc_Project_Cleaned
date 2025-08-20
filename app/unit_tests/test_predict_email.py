@@ -1,7 +1,8 @@
+import numpy as np
 import pytest
 
 from app.predict import predict_email
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, mock_open
 
 non_phishing_email = "Hi Algot, Glad to hear from you, haven't seen you in a while. There is no marking scheme/criteria; as it was explained in the message sent a few days ago on Canvas, projects are assessed holistically, considering results, efforts, commitments, etc. Best, Rick"
 
@@ -9,39 +10,55 @@ phishing_email = "personal contact dear sir madam may surprise receive letter si
 
 
 @patch("app.predict.pickle.load")
-@patch("builtins.open")
+@patch("builtins.open", new_callable=mock_open)
 @patch("app.predict.clean_text")
-def test_phishing_email(mock_clean_text, mock_open, mock_pickle_load):
+def test_phishing_email(mock_clean_text, mocked_open, mock_pickle_load):
     mock_model = MagicMock()
-    mock_model.predict.return_value = [1]
+    mock_model.predict_proba.return_value = np.array([[0.1, 0.9]])
+
+    mock_vector = MagicMock()
+    mock_vector.toarray.return_value = np.array([[0.0, 0.5, 0.3]])
 
     mock_vectorizer = MagicMock()
-    mock_vectorizer.transform.return_value = "mock_vectorizer"
+    mock_vectorizer.transform.return_value = mock_vector
+    mock_vectorizer.get_feature_names.return_value = ["w1", "w2", "w3"]
 
     mock_pickle_load.side_effect = [mock_model, mock_vectorizer]
     mock_clean_text.return_value = "Cleaned text"
 
     result = predict_email(phishing_email)
 
-    assert result == "Phishing" if result == 1 else "Not Phishing"
-    mock_clean_text.assert_called_once()
-    mock_model.predict.assert_called_once_with("mock_vectorizer")
-
+    assert  isinstance(result, dict)
+    assert result["label"] == "Phishing"
+    assert "confidence_score" in result
+    assert "top_contributing_words" in result
+    assert len(result["top_contributing_words"]) > 0
+    mock_clean_text.assert_called_once_with(phishing_email)
+    mock_model.predict_proba.assert_called_once()
+#
 @patch("app.predict.pickle.load")
-@patch("builtins.open")
+@patch("builtins.open", new_callable=mock_open)
 @patch("app.predict.clean_text")
 def test_non_phishing_email(mock_clean_text, mock_open, mock_pickle_load):
     mock_model = MagicMock()
-    mock_model.predict.return_value = [1]
+    mock_model.predict_proba.return_value = np.array([[0.92, 0.08]])
+
+    mock_vector = MagicMock()
+    mock_vector.toarray.return_value = np.array([[0.3, 0.0, 0.0]])
 
     mock_vectorizer = MagicMock()
-    mock_vectorizer.transform.return_value = "mock_vectorizer"
+    mock_vectorizer.transform.return_value = mock_vector
+    mock_vectorizer.get_feature_names.return_value = ["a", "b", "c"]
+
 
     mock_pickle_load.side_effect = [mock_model, mock_vectorizer]
     mock_clean_text.return_value = "Cleaned text"
 
     result = predict_email(non_phishing_email)
 
-    assert result == "Phishing" if result == 1 else "Not Phishing"
-    mock_clean_text.assert_called_once()
-    mock_model.predict.assert_called_once_with("mock_vectorizer")
+    assert isinstance(result, dict)
+    assert result["label"] == "Not Phishing"
+    assert "confidence_score" in result
+    assert "top_contributing_words" in result
+    mock_clean_text.assert_called_once_with(non_phishing_email)
+    mock_model.predict_proba.assert_called_once()
