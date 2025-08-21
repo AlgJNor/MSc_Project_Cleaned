@@ -107,6 +107,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def home():
     prediction = None
     if request.method == 'POST':
@@ -284,7 +285,7 @@ def admin_dashboard():
 @admin_required
 def classification_log():
     log_entries = []
-    log_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'classified_log.csv')
+    log_path = LOG_PATH
     headers = ["Timestamp", "Email Text", "Prediction", "Confidence Score", "Top Contributing Words"]
 
     q = request.args.get('q', '').lower();
