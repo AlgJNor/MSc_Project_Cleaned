@@ -95,7 +95,7 @@ def admin_client_with_temp_log(client, tmp_path):
 
 @pytest.fixture()
 def admin_client_with_predefined_logs(admin_client_with_temp_log):
-    """Same as the admin_client_with_log but we prepopulatre teow rows for search terms"""
+    """Same as the admin_client_with_log, but we prepopulate the rows for search terms"""
     client, log_path = admin_client_with_temp_log
 
     rows = [

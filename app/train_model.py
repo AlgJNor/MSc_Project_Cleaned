@@ -33,7 +33,7 @@ df['text'] = df['subject'].fillna('') + ' ' + df['body'].fillna('')
 # 4. Preprocess text
 def clean_text(text):
     text = text.lower()
-    text = re.sub(r"\bnot\s+(\w+)", r"not_\1", text)
+    text = re.sub(r"\bnot\s+(\w+)", r"not_\1", text) #Join 'not' with next token
     text = re.sub(r"http\S+", "", text)  # remove URLs
     text = re.sub(f"[{re.escape(string.punctuation)}]", "", text)  # remove punctuation
     text = re.sub(r"\d+", "", text)  # remove numbers
