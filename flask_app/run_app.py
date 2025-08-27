@@ -48,6 +48,7 @@ def inject_user():
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
+        print('USER>>>', user.password_hash, user.email, user.username, user.role)
         if user and check_password_hash(user.password_hash, request.form['password']):
             login_user(user)
             flash('Logged in successfully.', 'success')
