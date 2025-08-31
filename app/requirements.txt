@@ -1,2 +1,12 @@
+# Data & preprocessing
 pandas
+numpy
+
+#Machine Learning
 scikit-learn
+
+#Plotting
+matlotlib
+
+#Testing
+pytest

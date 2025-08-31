@@ -43,7 +43,7 @@ def clean_text(text):
 df['text'] = df['text'].apply(clean_text)
 
 # 5. Vectorization
-vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), min_df=3, max_df=0.85, max_features=10000)
+vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1,2), min_df=3, max_df=0.85, max_features=75000 )
 X = vectorizer.fit_transform(df['text'])
 
 print(X.shape)
@@ -66,10 +66,10 @@ recall = recall_score(y_test, y_prediction)
 f1 = f1_score(y_test, y_prediction)
 
 print(f"\nEvaluation on Model:")
-print(f"Accuracy: {accuracy:.2%}")
-print(f"Precision: {precision:.2%}")
-print(f"Recall: {recall:.2%}")
-print(f"F1 Score: {f1:.2%}")
+print(f"Accuracy: {accuracy:.4%}")
+print(f"Precision: {precision:.4%}")
+print(f"Recall: {recall:.4%}")
+print(f"F1 Score: {f1:.4%}")
 print("\nDetailed Report of the Model:\n", classification_report(y_test, y_prediction))
 
 y_probas = model.predict_proba(X_test)[:,1]
@@ -94,3 +94,4 @@ with open("app/vectorizer.pkl", "wb") as f:
     pickle.dump(vectorizer, f)
 
 print("Model and vectorizer saved.")
+

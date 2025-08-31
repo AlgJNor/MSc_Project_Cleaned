@@ -1,0 +1,13 @@
+# Web application
+flask
+
+# Datanase
+flask-sqlalchemy
+
+#Authentication
+flask-login
+flask-bcrypt
+
+#Utilities (Testing)
+werkzeug
+pytest
